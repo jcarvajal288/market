@@ -1,7 +1,10 @@
 from world import createWorld
+from player import Player
 
-def refreshScreen(currentTown):
+def refreshScreen(world, player):
+    currentTown = player.currentTown
     print(f"Current town: {currentTown.name}")
+    print(f"Current date: {world.date}")
     print("")
     print("Next town:")
     for neighbor in currentTown.neighbors.keys():
@@ -10,12 +13,15 @@ def refreshScreen(currentTown):
 
 def main():
     world = createWorld()
-    currentTown = world.getTown("Yoitsu")
+    player = Player(world.getTown("Yoitsu"))
     while True:
-        refreshScreen(currentTown)
+        refreshScreen(world, player)
         selection = input(">")
-        if selection in currentTown.neighbors.keys():
-            currentTown = world.getTown(selection)
+        if selection in player.currentTown.neighbors.keys():
+            newTown = world.getTown(selection)
+            daysToTown = player.currentTown.neighbors[newTown.name]
+            player.currentTown = newTown
+            world.date += daysToTown
         else:
             print("Invalid town name")
         

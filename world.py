@@ -10,6 +10,7 @@ class Town:
 class World:
     def __init__(self):
         self.towns = {}
+        self.date = 1000
 
     def addTown(self, name):
         self.towns[name] = Town(name)
